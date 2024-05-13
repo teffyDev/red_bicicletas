@@ -5,6 +5,15 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-L.marker([4.5743, -74.1243]).addTo(map).bindPopup('Parque El Tunal');
-L.marker([4.6681, -74.0832]).addTo(map).bindPopup('Parque Simón Bolívar');
-L.marker([4.5981, -74.0758]).addTo(map).bindPopup('Plaza de Bolívar');
+$.ajax({
+    dataType: "json",
+    url: "api/bicicletas",
+    success: function(result){
+        console.log(result); // Imprime el objeto result en la consola del navegador
+        result.bicicletas.forEach(function(bici) {
+            console.log(bici.ubicacion); // Imprime la ubicación de cada bicicleta
+            L.marker(bici.ubicacion, {title: bici.id}).addTo(map);
+        });
+    }
+});
+
